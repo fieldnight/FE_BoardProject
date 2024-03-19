@@ -70,6 +70,7 @@ export const AddressBtn = styled.button`
   background-color: black;
   color: white;
   padding: 0 0.2rem;
+  cursor: pointer;
 `;
 
 export const AddressWrapper = styled.div`
@@ -101,6 +102,7 @@ export const UploadBtn = styled.button`
 export const RadioWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;
 export const RadioBtn = styled.input``;
 export const RadioLabel = styled.div`
@@ -119,4 +121,10 @@ export const SubmitBtn = styled.button`
   border-radius: 6px;
   box-shadow: 2px 2px 2px 2px black;
   margin: 2rem auto;
+  cursor: pointer;
+`;
+
+export const Error = styled.div`
+color: red;
+font-size: 0%.5rem;
 `;

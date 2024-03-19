@@ -16,9 +16,55 @@ import {
   AddressWrapper,
   UploadWrapper,
   RadioWrapper,
+  Error,
 } from "../../../styles/myboardsNew";
 
+import { useState } from "react";
+
 export default function BoardPage() {
+  const [writer, setWriter] = useState("");
+  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [contents, setContents] = useState("");
+
+  const [writerError, setWriterError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [titleError, setTitleError] = useState("");
+  const [contentsError, setContentsError] = useState("");
+
+  const onChangeWriter = (event) => {
+    setWriter(event.target.value);
+    if (event.target.value !== "") setWriterError("");
+  };
+
+  const onChangeTitle = (event) => {
+    setTitle(event.target.value);
+    if (event.target.value !== "") setTitleError("");
+  };
+
+  const onChangeContents = (event) => {
+    setContents(event.target.value);
+    if (event.target.value !== "") setContentsError("");
+  };
+
+  const onChangePassword = (event) => {
+    setPassword(event.target.value);
+    if (event.target.value !== "") setPasswordError("");
+  };
+
+  const onClickSubmit = () => {
+    if (!writer) setWriterError("작성자를 입력해주세요");
+
+    if (!password) setPasswordError("비밀번호를 입력해주세요");
+
+    if (!title) setTitleError("제목을 입력해주세요");
+
+    if (!contents) setContentsError("내용을 입력해주세요");
+
+    if (writer && password && title && contents)
+      alert("게시글이 등록되었습니다");
+  };
+
   return (
     <Wrapper>
       <header>
@@ -26,22 +72,42 @@ export default function BoardPage() {
         <HeaderWrapper>
           <InputWrapper>
             <Title>작성자</Title>
-            <HeaderInput />
+            <HeaderInput
+              type="text"
+              placeholder="이름을 적어주세요"
+              onChange={onChangeWriter}
+            />
+            <Error>{writerError}</Error>
           </InputWrapper>
+
           <InputWrapper>
             <Title>비밀번호</Title>
-            <HeaderInput />
+            <HeaderInput
+              type="password"
+              placeholder="비밀번호를 적어주세요"
+              onChange={onChangePassword}
+            />
+            <Error>{passwordError}</Error>
           </InputWrapper>
         </HeaderWrapper>
       </header>
       <main>
         <InputWrapper>
           <Title>제목</Title>
-          <Input />
+          <Input
+            type="text"
+            placeholder="제목을 작성해주세요"
+            onChange={onChangeTitle}
+          />
+          <Error>{titleError}</Error>
         </InputWrapper>
         <InputWrapper>
           <Title>내용</Title>
-          <Contents placeholder="내용을 작성해 주세요" />
+          <Contents
+            placeholder="내용을 작성해 주세요"
+            onChange={onChangeContents}
+          />
+          <Error>{contentsError}</Error>
         </InputWrapper>
 
         <InputWrapper>
@@ -80,7 +146,7 @@ export default function BoardPage() {
           </RadioWrapper>
         </InputWrapper>
 
-        <SubmitBtn>등록하기</SubmitBtn>
+        <SubmitBtn onClick={onClickSubmit}>등록하기</SubmitBtn>
       </main>
       <footer></footer>
     </Wrapper>
