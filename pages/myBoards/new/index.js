@@ -19,7 +19,19 @@ import {
   Error,
 } from "../../../styles/myboardsNew";
 
-import { useState } from "react";
+//style component와 같은 성능을 지닌 eslint 사용, CSS In JS
+
+import { useState } from "react"; //useState 는 react의 상태관리변수.
+import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
+
+const CREATE_BOARD = gql`
+  mutation createBoard($createBoardInput: CreateBoardInput!) {
+    createBoard(createBoardInput: $createBoardInput) {
+      _id
+    }
+  }
+`;
 
 export default function BoardPage() {
   const [writer, setWriter] = useState("");
@@ -31,6 +43,9 @@ export default function BoardPage() {
   const [passwordError, setPasswordError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [contentsError, setContentsError] = useState("");
+
+  const [createBoard] = useMutation(CREATE_BOARD);
+  //자료형이 useMutation인 변수createBoard 생성
 
   const onChangeWriter = (event) => {
     setWriter(event.target.value);
@@ -52,7 +67,8 @@ export default function BoardPage() {
     if (event.target.value !== "") setPasswordError("");
   };
 
-  const onClickSubmit = () => {
+  const onClickSubmit = async () => {
+    //비동기 상태에서 서버의 응답이 올 떄 까지 기다리기 위한 명령어. promise가 임시 명령어를 날리는 것과 비교됨.
     if (!writer) setWriterError("작성자를 입력해주세요");
 
     if (!password) setPasswordError("비밀번호를 입력해주세요");
@@ -61,8 +77,24 @@ export default function BoardPage() {
 
     if (!contents) setContentsError("내용을 입력해주세요");
 
-    if (writer && password && title && contents)
-      alert("게시글이 등록되었습니다");
+    if (writer && password && title && contents) {
+      try {
+        const result = await createBoard({
+          variables: {
+            createBoardInput: {
+              writer,
+              password,
+              title,
+              contents, //short hand property : 키값이 같을 경우 값 생략. useState와 변수명 동일
+            },
+          },
+        });
+        console.log(result.data.createBoard._id);
+        router.push(`/boards/${result.data.createBoard._id}`);
+      } catch (error) {
+        alert(error.message);
+      }
+    }
   };
 
   return (
@@ -109,7 +141,6 @@ export default function BoardPage() {
           />
           <Error>{contentsError}</Error>
         </InputWrapper>
-
         <InputWrapper>
           <Title>주소</Title>
           <AddressWrapper>
@@ -121,12 +152,10 @@ export default function BoardPage() {
         <InputWrapper>
           <Input />
         </InputWrapper>
-
         <InputWrapper>
           <Title>유튜브</Title>
           <Input placeholder="링크를 복사해주세요" />
         </InputWrapper>
-
         <InputWrapper>
           <Title>사진첨부</Title>
           <UploadWrapper>
@@ -135,7 +164,6 @@ export default function BoardPage() {
             <UploadBtn>+</UploadBtn>
           </UploadWrapper>
         </InputWrapper>
-
         <InputWrapper>
           <Title>메인설정</Title>
           <RadioWrapper>
@@ -144,8 +172,8 @@ export default function BoardPage() {
             <RadioBtn type="radio" id="image" name="radio-button" />
             <RadioLabel htmlFor="image">사진</RadioLabel>
           </RadioWrapper>
-        </InputWrapper>
-
+        </InputWrapper>{" "}
+        {/*htmlFor과동일한 id의 radioButton과 연결.*/}
         <SubmitBtn onClick={onClickSubmit}>등록하기</SubmitBtn>
       </main>
       <footer></footer>

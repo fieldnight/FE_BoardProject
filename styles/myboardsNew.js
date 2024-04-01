@@ -6,10 +6,11 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  border: 1px solid black;
+  border: 1px solid gainsboro;
   margin: 2rem auto;
   padding: 1rem;
   width: 50rem;
+  box-shadow: 1px 5px 10px gray;
 `;
 
 export const BigTitle = styled.div`
