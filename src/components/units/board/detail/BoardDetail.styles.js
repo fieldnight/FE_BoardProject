@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
+//import { css } from "@emotion/react";
 
-export const style = css`
+/*export const style = css`
   :root {
     --color--grey: rgb(139, 106, 106);
   }
 `;
-
+*/
 export const Profile = styled.header`
   display: flex;
   flex-direction: row;

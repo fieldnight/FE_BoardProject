@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { CREATE_BOARD } from "./BoardWrite.queries";
 import BoardWriteUI from "./BoardWrite.presenter";
 
-export default function BoardPage() {
+export default function BoardWrite() {
   const router = useRouter();
 
   const [writer, setWriter] = useState("");
@@ -74,7 +74,7 @@ export default function BoardPage() {
           },
         });
         console.log(result.data.createBoard._id);
-        router.push(`/boards/${result.data.createBoard._id}`);
+        router.push(`/Boards/${result.data.createBoard._id}`);
       } catch (error) {
         alert(error.message);
       }
