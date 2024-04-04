@@ -1,5 +1,5 @@
-import BoardDetail from "@/src/components/units/board/detail/BoardDetail.container";
+import BoardWrite from "../../../src/components/units/board/write/BoardWrite.container";
 
 export default function BoardDetailPage() {
-  return <BoardDetail />;
+  return <BoardWrite />;
 }

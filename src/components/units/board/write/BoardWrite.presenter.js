@@ -39,7 +39,7 @@ export default function BoardWriteUI(props) {
       </header>
       <main>
         <S.InputWrapper>
-          <Title>제목</Title>
+          <S.Title>제목</S.Title>
           <S.Input
             type="text"
             placeholder="제목을 작성해주세요"

@@ -12,8 +12,10 @@ presenter - jsx(UI)
 //useState 는 react의 상태관리변수.
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useMutation } from "@apollo/client";
 import { CREATE_BOARD } from "./BoardWrite.queries";
 import BoardWriteUI from "./BoardWrite.presenter";
+
 
 export default function BoardWrite() {
   const router = useRouter();
