@@ -14,7 +14,7 @@ export default function BoardWriteUI(props) {
   return (
     <S.Wrapper>
       <header>
-        <S.BigTitle>{props.isEdit ? "게시글 수정" :"게시글 등록" }</S.BigTitle>
+        <S.BigTitle>{props.isEdit ? "게시글 수정" : "게시글 등록"}</S.BigTitle>
         <S.HeaderWrapper>
           <S.InputWrapper>
             <S.Title>작성자</S.Title>
@@ -22,6 +22,8 @@ export default function BoardWriteUI(props) {
               type="text"
               placeholder="이름을 적어주세요"
               onChange={props.onChangeWriter}
+              defaultValue={props.data?.fetchBoard.writer}
+              readOnly={props.data?.fetchBoard.writer}
             />
             <S.Error>{props.writerError}</S.Error>
           </S.InputWrapper>
@@ -44,6 +46,7 @@ export default function BoardWriteUI(props) {
             type="text"
             placeholder="제목을 작성해주세요"
             onChange={props.onChangeTitle}
+            defaultValue={props.data?.fetchBoard.title}
           />
           <S.Error>{props.titleError}</S.Error>
         </S.InputWrapper>
@@ -52,6 +55,7 @@ export default function BoardWriteUI(props) {
           <S.Contents
             placeholder="내용을 작성해 주세요"
             onChange={props.onChangeContents}
+            defaultValue={props.data?.fetchBoard.contents}
           />
           <S.Error>{props.contentsError}</S.Error>
         </S.InputWrapper>
@@ -88,8 +92,11 @@ export default function BoardWriteUI(props) {
           </S.RadioWrapper>
         </S.InputWrapper>{" "}
         {/*htmlFor과동일한 id의 radioButton과 연결.*/}
-        <S.SubmitBtn onClick={props.isEdit? props.onClickUpdate : props.onClickSubmit} isActive={props.isEdit ? true :props.isActive}>
-         {props.isEdit ? "수정하기" : "등록하기" }
+        <S.SubmitBtn
+          onClick={props.isEdit ? props.onClickUpdate : props.onClickSubmit}
+          isActive={props.isEdit ? true : props.isActive}
+        >
+          {props.isEdit ? "수정하기" : "등록하기"}
         </S.SubmitBtn>
       </main>
       <footer></footer>
