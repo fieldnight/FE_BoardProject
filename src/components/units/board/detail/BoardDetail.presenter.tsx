@@ -1,7 +1,8 @@
 import * as S from "./BoardDetail.styles";
-import { Wrapper } from "./../write/BoardWrite.styles";
+import { Wrapper } from "../write/BoardWrite.styles";
+import { IBoardDetailUIProps } from "./BoardDetail.types";
 
-export default function BoardDetailUI(props) {
+export default function BoardDetailUI(props:IBoardDetailUIProps) {
   return (
     <>
       <Wrapper>
@@ -38,7 +39,6 @@ export default function BoardDetailUI(props) {
           </S.InputWrapper>
 
           <S.CommentTextarea
-            type="text"
             placeholder="개인정보 공유 및 요청하거나, 명예회손, 무단 광고, 불법 정보 유포시&#10; 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
           />
           <S.CommentSubmit>등록하기</S.CommentSubmit>
