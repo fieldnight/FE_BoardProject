@@ -15,3 +15,19 @@ export const CREATE_BOARD = gql`
 //{}안 내용: cB m를 호출.
 //1.  $cBI 타입의 변수 cBI를 m에 전달
 //2. m 의 반환값으로 _id 받음
+
+export const UPDATE_BOARD = gql`
+  mutation updateBoard(
+    $boardId: ID!
+    $password: string
+    $updateBoardInput: updateBoardInput!
+  ) {
+    updateBoard(
+      boardId: $boardId
+      password: $password
+      updateBOardInput: $updateBoardInput
+    ) {
+      _id
+    }
+  }
+`;

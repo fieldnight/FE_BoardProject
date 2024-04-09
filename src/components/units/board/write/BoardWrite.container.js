@@ -13,13 +13,13 @@ presenter - jsx(UI)
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
-import { CREATE_BOARD } from "./BoardWrite.queries";
+import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
 import BoardWriteUI from "./BoardWrite.presenter";
 
-
-export default function BoardWrite() {
+export default function BoardWrite(props) {
   const router = useRouter();
 
+  const [isActive, setIsActive] = useState(false);
   const [writer, setWriter] = useState("");
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
@@ -31,26 +31,50 @@ export default function BoardWrite() {
   const [contentsError, setContentsError] = useState("");
 
   const [createBoard] = useMutation(CREATE_BOARD);
+  const [updateBoard] = useMutation(UPDATE_BOARD);
   //자료형이 useMutation인 변수createBoard 생성
 
   const onChangeWriter = (event) => {
     setWriter(event.target.value);
     if (event.target.value !== "") setWriterError("");
+
+    if (event.target.value && password && title && contents) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const onChangeTitle = (event) => {
     setTitle(event.target.value);
     if (event.target.value !== "") setTitleError("");
+
+    if (event.target.value && writer && contents && password) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
     if (event.target.value !== "") setContentsError("");
+    if (event.target.value && writer && title && password) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const onChangePassword = (event) => {
     setPassword(event.target.value);
     if (event.target.value !== "") setPasswordError("");
+
+    if (writer && event.target.value && title && contents) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const onClickSubmit = async () => {
@@ -76,10 +100,25 @@ export default function BoardWrite() {
           },
         });
         console.log(result.data.createBoard._id);
-        router.push(`/Boards/${result.data.createBoard._id}`);
+        router.push(`/board/${result.data.createBoard._id}`);
       } catch (error) {
         alert(error.message);
       }
+    }
+  };
+
+  const onClickUpdate = async () => {
+    try {
+      const result = await updateBoard({
+        variables: {
+          boardId: router.query.boardId,
+          password,
+          updateBoardInput: { title, contents },
+        },
+      });
+      router.push(`/board/${result.data.updateBoard._id}`);
+    } catch (error) {
+      alert(error.message);
     }
   };
 
@@ -90,10 +129,13 @@ export default function BoardWrite() {
       onChangeTitle={onChangeTitle}
       onChangeWriter={onChangeWriter}
       onClickSubmit={onClickSubmit}
+      onClickUpdate={onClickUpdate}
       writerError={writerError}
       titleError={titleError}
       passwordError={passwordError}
       contentsError={contentsError}
+      isActive={isActive}
+      isEdit={props.isEdit} //page에서 받아온 props
     />
   );
   // styles의 onChange(onChangeContents)이벤트 핸들러에 container의 onChange 함수 바인딩.

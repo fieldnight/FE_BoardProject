@@ -14,7 +14,7 @@ export default function BoardWriteUI(props) {
   return (
     <S.Wrapper>
       <header>
-        <S.BigTitle>게시글 등록</S.BigTitle>
+        <S.BigTitle>{props.isEdit ? "게시글 수정" :"게시글 등록" }</S.BigTitle>
         <S.HeaderWrapper>
           <S.InputWrapper>
             <S.Title>작성자</S.Title>
@@ -88,7 +88,9 @@ export default function BoardWriteUI(props) {
           </S.RadioWrapper>
         </S.InputWrapper>{" "}
         {/*htmlFor과동일한 id의 radioButton과 연결.*/}
-        <S.SubmitBtn onClick={props.onClickSubmit}>등록하기</S.SubmitBtn>
+        <S.SubmitBtn onClick={props.isEdit? props.onClickUpdate : props.onClickSubmit} isActive={props.isEdit ? true :props.isActive}>
+         {props.isEdit ? "수정하기" : "등록하기" }
+        </S.SubmitBtn>
       </main>
       <footer></footer>
     </S.Wrapper>

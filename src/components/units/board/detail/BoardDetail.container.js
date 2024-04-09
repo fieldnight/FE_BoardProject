@@ -3,15 +3,24 @@ import { useRouter } from "next/router";
 import BoardDetailUI from "./BoardDetail.presenter";
 import { FETCH_BOARD } from "./BoardDetail.queries";
 
-
 export default function BoardDetail() {
   const router = useRouter();
   const { data } = useQuery(FETCH_BOARD, {
-    variables: { boardId: router.query.boardId},
+    variables: { boardId: router.query.boardId },
   });
- const onClickToBoardList = () => {
-    router.push("../../../../../pages/index");
+  const onClickToBoardList = () => {
+    router.push("../../../../../board");
   };
 
-  return <BoardDetailUI data={data} onClickToBoardList={onClickToBoardList} />;}
+  const onClickToBoardEdit = () => {
+    router.push(`${router.query.boardId}/edit`);
+  };
 
+  return (
+    <BoardDetailUI
+      data={data}
+      onClickToBoardList={onClickToBoardList}
+      onClickToBoardEdit={onClickToBoardEdit}
+    />
+  );
+}

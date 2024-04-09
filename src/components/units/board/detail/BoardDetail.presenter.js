@@ -21,7 +21,7 @@ export default function BoardDetailUI(props) {
       <S.UnderWrapper>
         <S.ButtonWrapper>
           <S.UnderButton onClick={props.onClickToBoardList}>목록으로</S.UnderButton>
-          <S.UnderButton>수정하기</S.UnderButton>
+          <S.UnderButton onClick = {props.onClickToBoardEdit}>수정하기</S.UnderButton>
           <S.UnderButton>삭제하기</S.UnderButton>
         </S.ButtonWrapper>
 
