@@ -108,12 +108,27 @@ export default function BoardWrite(props) {
   };
 
   const onClickUpdate = async () => {
+    if (!title && !contents) {
+      alert("수정한 내용이 없습니다.");
+      return;
+    }
+
+    if (!password) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+
+    const updateBoardInput = {};
+    if (title) updateBoardInput.title = title;
+    if (contents) updateBoardInput.contents = contents;
+
     try {
       const result = await updateBoard({
         variables: {
           boardId: router.query.boardId,
           password,
-          updateBoardInput: { title, contents },
+          updateBoardInput, 
+          // : { title, contents } 두개 다 한번에 업데이트 하는 대신 변경된 값만 업데이트함
         },
       });
       router.push(`/board/${result.data.updateBoard._id}`);
@@ -135,7 +150,8 @@ export default function BoardWrite(props) {
       passwordError={passwordError}
       contentsError={contentsError}
       isActive={isActive}
-      isEdit={props.isEdit} //page에서 받아온 props
+      isEdit={props.isEdit}
+      data={props.data} //page에서 받아온 props
     />
   );
   // styles의 onChange(onChangeContents)이벤트 핸들러에 container의 onChange 함수 바인딩.
