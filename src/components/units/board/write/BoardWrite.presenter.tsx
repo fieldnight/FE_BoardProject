@@ -8,9 +8,10 @@ props; 부모-> 자식 단방향 정보 전달
 바인딩; props가 있어야 부모로부터 알맹이(실 함수)를 넘겨받는다. 
 
 */
+import { IBoardWriteUIProps } from "./BoardWrite.types";
 import * as S from "./BoardWrite.styles";
 
-export default function BoardWriteUI(props) {
+export default function BoardWriteUI(props: IBoardWriteUIProps) {
   return (
     <S.Wrapper>
       <header>
@@ -22,8 +23,8 @@ export default function BoardWriteUI(props) {
               type="text"
               placeholder="이름을 적어주세요"
               onChange={props.onChangeWriter}
-              defaultValue={props.data?.fetchBoard.writer}
-              readOnly={props.data?.fetchBoard.writer}
+              defaultValue={props.data?.fetchBoard.writer ?? ""}
+              readOnly={!!props.data?.fetchBoard.writer}
             />
             <S.Error>{props.writerError}</S.Error>
           </S.InputWrapper>
@@ -90,7 +91,7 @@ export default function BoardWriteUI(props) {
             <S.RadioBtn type="radio" id="image" name="radio-button" />
             <S.RadioLabel htmlFor="image">사진</S.RadioLabel>
           </S.RadioWrapper>
-        </S.InputWrapper>{" "}
+        </S.InputWrapper>
         {/*htmlFor과동일한 id의 radioButton과 연결.*/}
         <S.SubmitBtn
           onClick={props.isEdit ? props.onClickUpdate : props.onClickSubmit}

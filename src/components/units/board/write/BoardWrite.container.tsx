@@ -10,13 +10,20 @@ presenter - jsx(UI)
 */
 
 //useState 는 react의 상태관리변수.
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
 import BoardWriteUI from "./BoardWrite.presenter";
+import {
+  IMutation,
+  IMutationCreateBoardArgs,
+  IMutationUpdateBoardArgs,
+  IUpdateBoardInput,
+} from "../../../../commons/types/generated/types";
+import { IBoardWriteProps } from "./BoardWrite.types";
 
-export default function BoardWrite(props) {
+export default function BoardWrite(props: IBoardWriteProps) {
   const router = useRouter();
 
   const [isActive, setIsActive] = useState(false);
@@ -30,11 +37,19 @@ export default function BoardWrite(props) {
   const [titleError, setTitleError] = useState("");
   const [contentsError, setContentsError] = useState("");
 
-  const [createBoard] = useMutation(CREATE_BOARD);
-  const [updateBoard] = useMutation(UPDATE_BOARD);
+  const [createBoard] = useMutation<
+    Pick<IMutation, "createBoard">,
+    IMutationCreateBoardArgs
+  >(CREATE_BOARD);
+  const [updateBoard] = useMutation<
+    Pick<IMutation, "updateBoard">,
+    IMutationUpdateBoardArgs
+  >(UPDATE_BOARD);
+  //const [createBoard] = useMutation(CREATE_BOARD);
+  //const [updateBoard] = useMutation(UPDATE_BOARD);
   //자료형이 useMutation인 변수createBoard 생성
 
-  const onChangeWriter = (event) => {
+  const onChangeWriter = (event: ChangeEvent<HTMLInputElement>) => {
     setWriter(event.target.value);
     if (event.target.value !== "") setWriterError("");
 
@@ -45,7 +60,7 @@ export default function BoardWrite(props) {
     }
   };
 
-  const onChangeTitle = (event) => {
+  const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     if (event.target.value !== "") setTitleError("");
 
@@ -56,7 +71,7 @@ export default function BoardWrite(props) {
     }
   };
 
-  const onChangeContents = (event) => {
+  const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContents(event.target.value);
     if (event.target.value !== "") setContentsError("");
     if (event.target.value && writer && title && password) {
@@ -66,7 +81,7 @@ export default function BoardWrite(props) {
     }
   };
 
-  const onChangePassword = (event) => {
+  const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
     if (event.target.value !== "") setPasswordError("");
 
@@ -99,10 +114,11 @@ export default function BoardWrite(props) {
             },
           },
         });
-        console.log(result.data.createBoard._id);
-        router.push(`/board/${result.data.createBoard._id}`);
-      } catch (error) {
-        alert(error.message);
+        console.log(result.data?.createBoard._id);
+        router.push(`/board/${result.data?.createBoard._id}`);
+      } catch (error: unknown) {
+        if (error instanceof Error) alert(error.message);
+        //instanceof 를 이용하여 타입가드
       }
     }
   };
@@ -118,22 +134,27 @@ export default function BoardWrite(props) {
       return;
     }
 
-    const updateBoardInput = {};
+    const updateBoardInput: IUpdateBoardInput = {};
     if (title) updateBoardInput.title = title;
     if (contents) updateBoardInput.contents = contents;
 
     try {
+      if (typeof router.query.boardId !== "string") {
+        alert("시스템에 문제가 있습니다.");
+        return;
+      }
+
       const result = await updateBoard({
         variables: {
           boardId: router.query.boardId,
           password,
-          updateBoardInput, 
+          updateBoardInput,
           // : { title, contents } 두개 다 한번에 업데이트 하는 대신 변경된 값만 업데이트함
         },
       });
-      router.push(`/board/${result.data.updateBoard._id}`);
+      router.push(`/board/${result.data?.updateBoard._id}`);
     } catch (error) {
-      alert(error.message);
+      if (error instanceof Error) alert(error.message);
     }
   };
 
