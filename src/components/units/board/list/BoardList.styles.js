@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 
-
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,7 +8,6 @@ export const Wrapper = styled.div`
   margin: 2rem auto;
   padding: 1rem;
   width: 50rem;
- 
 `;
 
 export const SearchHeader = styled.div`
@@ -49,14 +47,13 @@ flex-direction: row;
 justify-content: space-around;
 align-items: center;`;
 
-
 const sharedInner = `width: 8rem;
 display: flex;
 flex-direction: row;
-justify-content: center;`
+justify-content: center;`;
 
 export const MapTitle = styled.div`
-${sharedInner}
+  ${sharedInner}
 `;
 export const MapList = styled.div`
   ${sharedStyles}
@@ -67,36 +64,32 @@ export const ListWrapper = styled.div`
 `;
 
 export const List = styled.div`
-${sharedInner}`;
+  ${sharedInner}
+`;
 
 export const ListTitle = styled.div`
-${sharedInner};
-cursor: pointer;
+  ${sharedInner};
+  cursor: pointer;
 
-
-:hover{
-  color: blue;
-  transform: scale(105%);
-  transition: ease-in-out 0.1s;
-}
-`
+  :hover {
+    color: blue;
+    transform: scale(105%);
+    transition: ease-in-out 0.1s;
+  }
+`;
 
 export const Footer = styled.footer`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-
 `;
 export const EnrollButton = styled.button`
-
   width: 10rem;
   height: 2rem;
-  transform: translateX(20rem); 
+  transform: translateX(20rem);
 
-  :hover{
-  transform : scale(120%);
-  transition: ease-in-out 0.5s;
-
+  :hover {
+    transform: scale(105%) translateX(19rem);
+    transition: ease-in-out 0.3s;
   }
-
 `;

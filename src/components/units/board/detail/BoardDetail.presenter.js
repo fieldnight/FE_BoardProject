@@ -1,27 +1,30 @@
 import * as S from "./BoardDetail.styles";
-import {Wrapper} from "./../write/BoardWrite.styles"
+import { Wrapper } from "./../write/BoardWrite.styles";
 
 export default function BoardDetailUI(props) {
   return (
     <>
-     <Wrapper>
+      <Wrapper>
         <S.Profile>
           <S.Writer>
-            노원두
             {props.data?.fetchBoard?.writer}
             <S.Date>2024.3.28{props.data?.fetchBoard?.createdAt}</S.Date>
           </S.Writer>
         </S.Profile>
         <hr style={{ width: "50rem" }} />
         <S.Main>
-          <S.Title>제목{props.data?.fetchBoard?.title}</S.Title>
-          <S.Contents>내용 랄랄라{props.data?.fetchBoard?.contents}</S.Contents>
+          <S.Title>{props.data?.fetchBoard?.title}</S.Title>
+          <S.Contents>{props.data?.fetchBoard?.contents}</S.Contents>
         </S.Main>
       </Wrapper>
       <S.UnderWrapper>
         <S.ButtonWrapper>
-          <S.UnderButton onClick={props.onClickToBoardList}>목록으로</S.UnderButton>
-          <S.UnderButton onClick = {props.onClickToBoardEdit}>수정하기</S.UnderButton>
+          <S.UnderButton onClick={props.onClickToBoardList}>
+            목록으로
+          </S.UnderButton>
+          <S.UnderButton onClick={props.onClickToBoardEdit}>
+            수정하기
+          </S.UnderButton>
           <S.UnderButton>삭제하기</S.UnderButton>
         </S.ButtonWrapper>
 
