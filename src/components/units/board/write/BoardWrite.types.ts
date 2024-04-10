@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
 import { IQuery } from "../../../../commons/types/generated/types";
+import { IMutation } from "../../../../commons/types/generated/types";
 
 export interface IBoardWriteProps {
   isEdit: boolean;
@@ -28,3 +29,11 @@ export interface ISubmitButtonProps {
   isActive: boolean;
 }
 //graphql의 경우 code.gen.yaml 파일을 통해 types을 다운로드받았으나 REST API의 경우 하나하나 입력해야한다.
+
+export interface MutateType {
+  MutateType1: Pick<IMutation, "createBoard">;
+  MutateType2: Pick<IMutation, "updateBoard">;
+}
+
+//2중 pick 사용할 경우, result.data?.createBoard._id} 에러 발생 
+//'Pick<MutateType, "MutateType1">' 형식에 'createBoard' 속성이 없습니다.ts(2339)
